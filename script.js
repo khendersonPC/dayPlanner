@@ -11,18 +11,30 @@ var schedule = [
 	{ hour: "2 PM", activity: "" }
 ];
 
+var myAct="";
 //make blanks rows
 $("table").append("<tbody>");
 
 for(var i =0; i<9;i++){
     var newRow = $("<tr></tr>");
     var c1 =$("<td></td>").text(schedule[i].hour).addClass("time-block");
-    var c2 =$("<td><input></type></td>").addClass("description");
+    var c2 =$("<td><input></type></td>").addClass("description").attr("id", i);
    
-    var c3 =$("<td></td>").addClass("saveBtn");
+    var c3 =$("<td><button type = 'button'></td>").addClass("saveBtn").attr("id", i);;
     $("tbody").append(newRow,c1,c2,c3);
    
 };
+$( "input" )
+  .keyup(function() {
+    myAct = $( this ).val();
+  })
+  .keyup();
+
+$(".saveBtn").on("click", function(event) {
+  schedule[this.id].activity=myAct;
+    console.log(myAct);
+    console.log(schedule);
+});
 
 
 setColor();
@@ -81,17 +93,7 @@ function checkColor(hour) {
 
 function setColor(){
     var times = $(".time-block").toArray();
-    console.log(times);
-    console.log("set color times[0].text" + times[0].textContent);
-    console.log("check color: " +checkColor(times[0].textContent));
-    console.log("check color: " +checkColor(times[1].textContent));
-    console.log("check color: " +checkColor(times[2].textContent));
-    console.log("check color: " +checkColor(times[3].textContent));
-    console.log("check color: " +checkColor(times[4].textContent));
-    console.log("check color: " +checkColor(times[5].textContent));
-    console.log("check color: " +checkColor(times[6].textContent));
-    console.log("check color: " +checkColor(times[7].textContent));
-    console.log("check color: " +checkColor(times[8].textContent));
+ 
     for(var i =0; i<times.length;i++){
         if(checkColor(times[i].textContent)==="past"){
             $(times[i]).addClass("past");
