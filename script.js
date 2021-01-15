@@ -6,7 +6,7 @@ var schedule = [
 	{ hour: "9 AM", activity: "" },
 	{ hour: "10 AM", activity: "" },
 	{ hour: "11 AM", activity: "" },
-	{ hour: "12 AM", activity: "" },
+	{ hour: "12 PM", activity: "" },
 	{ hour: "1 PM", activity: "" },
 	{ hour: "2 PM", activity: "" }
 ];
@@ -14,7 +14,7 @@ var schedule = [
 //make blanks rows
 $("table").append("<tbody>");
 
-for(var i =0; i<11;i++){
+for(var i =0; i<9;i++){
     var newRow = $("<tr></tr>");
     var c1 =$("<td></td>").text(schedule[i].hour).addClass("time-block");
     var c2 =$("<td><input></type></td>").addClass("description");
@@ -63,31 +63,44 @@ setTime();
 */
 // function for past, present, next color
 function checkColor(hour) {
-
-	var now = moment().format('h A');
+    let now = moment().format('h A');
+    let momentTime = moment(now, 'h A');
+    let laterMomentTime = moment(hour, 'h A');
 	
-	if (hour.isBefore(now) === true) {
-		return "past";
-	} else if (hour.isAfter(now) === true) {
+	
+	if(momentTime.isBefore(laterMomentTime) ){
 		return "future";
+	} else if (momentTime.isAfter(laterMomentTime) ){
+		return "past";
 	} else {
 		return "present";
 	}
 }
 
 
+
 function setColor(){
     var times = $(".time-block").toArray();
-
-    for(var i =0; i<schedule.length;i++){
-        if(checkColor(times[i].text)=="past"){
-            times[i].addClass("past");
+    console.log(times);
+    console.log("set color times[0].text" + times[0].textContent);
+    console.log("check color: " +checkColor(times[0].textContent));
+    console.log("check color: " +checkColor(times[1].textContent));
+    console.log("check color: " +checkColor(times[2].textContent));
+    console.log("check color: " +checkColor(times[3].textContent));
+    console.log("check color: " +checkColor(times[4].textContent));
+    console.log("check color: " +checkColor(times[5].textContent));
+    console.log("check color: " +checkColor(times[6].textContent));
+    console.log("check color: " +checkColor(times[7].textContent));
+    console.log("check color: " +checkColor(times[8].textContent));
+    for(var i =0; i<times.length;i++){
+        if(checkColor(times[i].textContent)==="past"){
+            $(times[i]).addClass("past");
         }
-        else if (checkColor(times[i].text)=="future"){
-            times[i].addClass("future");
+        else if (checkColor(times[i].textContent)==="future"){
+            $(times[i]).addClass("future");
         }
         else{
-            times[i].addClass("present");
+            $(times[i]).addClass("present");
         }
     }
 }
