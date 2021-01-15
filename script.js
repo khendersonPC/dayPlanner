@@ -12,6 +12,7 @@ var schedule = [
 ];
 
 var myAct="";
+
 //make blanks rows
 $("table").append("<tbody>");
 
@@ -22,18 +23,22 @@ for(var i =0; i<9;i++){
    
     var c3 =$("<td><button type = 'button'></td>").addClass("saveBtn").attr("id", i);;
     $("tbody").append(newRow,c1,c2,c3);
-   
 };
+
+//get input from the activity section
 $( "input" )
   .keyup(function() {
     myAct = $( this ).val();
   })
   .keyup();
-
+//adds the activity to the array
 $(".saveBtn").on("click", function(event) {
   schedule[this.id].activity=myAct;
     console.log(myAct);
     console.log(schedule);
+  
+    localStorage.setItem("refreshedSch",JSON.stringify(schedule));
+
 });
 
 
