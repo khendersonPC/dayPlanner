@@ -68,14 +68,21 @@ textarea{
   border-left: 1px solid black;
   cursor: pointer;
   text-align: center;
-  
-  
- /* border-left: 1px solid black;
+
+}
+
+
+.eraseBtn {
+  background-color: #4CAF50; 
+  border: none;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
- 
-  */
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
 }
+
 
 .saveBtn i:hover {
   font-size: 20px;

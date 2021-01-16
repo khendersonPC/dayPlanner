@@ -1,130 +1,122 @@
 
 var schedule = [
-	{ hour: "6 AM", activity: "" },
-	{ hour: "7 AM", activity: "" },
-	{ hour: "8 AM", activity: "" },
-	{ hour: "9 AM", activity: "" },
-	{ hour: "10 AM", activity: "" },
-	{ hour: "11 AM", activity: "" },
-	{ hour: "12 PM", activity: "" },
-	{ hour: "1 PM", activity: "" },
-	{ hour: "2 PM", activity: "" }
+    { hour: "6 AM", activity: "" },
+    { hour: "7 AM", activity: "" },
+    { hour: "8 AM", activity: "" },
+    { hour: "9 AM", activity: "" },
+    { hour: "10 AM", activity: "" },
+    { hour: "11 AM", activity: "" },
+    { hour: "12 PM", activity: "" },
+    { hour: "1 PM", activity: "" },
+    { hour: "2 PM", activity: "" }
 ];
 
+
+
+
+var myAct = "";
+
+
+
 var savedSch = JSON.parse(localStorage.getItem("refreshedSch"));
-	if (savedSch !== null) {
-	    schedule = savedSch;
+if (savedSch !== null) {
+    schedule = savedSch;
 }
+    //make blanks rows
+    $("table").append("<tbody>");
 
-var myAct="";
-
-
-//make blanks rows
-$("table").append("<tbody>");
-
-for(var i =0; i<9;i++){
-    var newRow = $("<tr></tr>");
-    var c1 =$("<td></td>").text(schedule[i].hour).addClass("time-block");
-    if(schedule[i].activity != ""){
-        var c2 =$("<td></td>").text(schedule[i].activity).addClass("description").attr("id", i);
-    }
-    else{
-        var c2 =$("<td><input></type></td>").addClass("description").attr("id", i);
-    }
-    var c3 =$("<td><button type = 'button'></td>").addClass("saveBtn").attr("id", i);;
-    var c4 =$("<td><button type = 'button'></td>").addClass("eraseBtn").attr("id", i);;
-    $("tbody").append(newRow,c1,c2,c3,c4);
-};
+    for (var i = 0; i < 9; i++) {
+        var newRow = $("<tr></tr>");
+        var c1 = $("<td></td>").text(schedule[i].hour).addClass("time-block");
+        if (schedule[i].activity != "") {
+            var c2 = $("<td></td>").text(schedule[i].activity).addClass("description").attr("id", i);
+        }
+        else {
+            var c2 = $("<td><input></type></td>").addClass("description").attr("id", i);
+        }
+        var c3 = $("<td></td>").text("SAVE").addClass("saveBtn").attr("id", i);
+        var c4 = $("<td></td>").text("ERASE").addClass("eraseBtn").attr("id", i);;
+        $("tbody").append(newRow, c1, c2, c3, c4);
+    };
 
 //get input from the activity section
-$( "input" )
-  .keyup(function() {
-    myAct = $( this ).val();
-  })
-  .keyup();
+$("input")
+    .keyup(function () {
+        myAct = $(this).val();
+    })
+    .keyup();
 //adds the activity to the array
-$(".saveBtn").on("click", function(event) {
-  schedule[this.id].activity=myAct;
+$(".saveBtn").on("click", function (event) {
+    schedule[this.id].activity = myAct;
     console.log(myAct);
     console.log(schedule);
-  
-    localStorage.setItem("refreshedSch",JSON.stringify(schedule));
+
+    localStorage.setItem("refreshedSch", JSON.stringify(schedule));
+    makeRows();
+});
+
+$(".eraseBtn").on("click", function (event) {
+    schedule[this.id].activity = "";
+    $("#" + this.id).text("");
+
+    localStorage.setItem("refreshedSch", JSON.stringify(schedule));
 
 });
 
-$(".eraseBtn").on("click", function(event) {
-    schedule[this.id].activity="";
-    $("#" + this.id).text("");
-
-    localStorage.setItem("refreshedSch",JSON.stringify(schedule));
-  
-  });
 
 setColor();
 
-//var numbersinRow
 
 //setInterval function- run it based on the time left in the day
 //onClick svae button
 //save to local storage 
 //getItem for each of the sep time blocks- each has a sep ID
 
-//function- what color should the box be?
-
-//
-
-/*
-var timeEl = document.querySelector(".time");
-var mainEl = document.getElementById("main");
-
-var secondsLeft = 10;
 
 function setTime() {
   var timerInterval = setInterval(function() {
-    secondsLeft--;
     var currentTime= moment().format();
-    timeEl.textContent = secondsLeft + " seconds left till colorsplosion.";
+    setColor();
 
     if(currentTime === "11:59:59 pm") {
       clearInterval(timerInterval);
       
     }
 
-  }, 1000);
+  }, 1800000);
 }
 
 
 setTime();
-*/
+
 // function for past, present, next color
 function checkColor(hour) {
     let now = moment().format('h A');
     let momentTime = moment(now, 'h A');
     let laterMomentTime = moment(hour, 'h A');
-	
-	
-	if(momentTime.isBefore(laterMomentTime) ){
-		return "future";
-	} else if (momentTime.isAfter(laterMomentTime) ){
-		return "past";
-	} else {
-		return "present";
-	}
+
+
+    if (momentTime.isBefore(laterMomentTime)) {
+        return "future";
+    } else if (momentTime.isAfter(laterMomentTime)) {
+        return "past";
+    } else {
+        return "present";
+    }
 }
 
 
-
-function setColor(){
+function setColor() {
     var times = $(".time-block").toArray();
- 
-    for(var i =0; i<times.length;i++){
-        if(checkColor(times[i].textContent)==="past"){
+
+    for (var i = 0; i < times.length; i++) {
+        if (checkColor(times[i].textContent) === "past") {
             $(times[i]).addClass("past");
         }
-        else if (checkColor(times[i].textContent)==="future"){
+        else if (checkColor(times[i].textContent) === "future") {
             $(times[i]).addClass("future");
         }
-        else{
+        else {
             $(times[i]).addClass("present");
         }
     }
