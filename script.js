@@ -31,8 +31,9 @@ if (savedSch !== null) {
         if (schedule[i].activity != "") {
             var c2 = $("<td></td>").text(schedule[i].activity).addClass("description").attr("id", i);
         }
+        //template literal with ticks?//.attr("id", i)
         else {
-            var c2 = $("<td><input></type></td>").addClass("description").attr("id", i);
+            var c2 = $(`<td><input id= ${i} class = 'form-control'></input></td>`).addClass("description");
         }
         var c3 = $("<td></td>").text("SAVE").addClass("saveBtn").attr("id", i);
         var c4 = $("<td></td>").text("ERASE").addClass("eraseBtn").attr("id", i);;
@@ -52,12 +53,13 @@ $(".saveBtn").on("click", function (event) {
     console.log(schedule);
 
     localStorage.setItem("refreshedSch", JSON.stringify(schedule));
-    makeRows();
+    
 });
 
 $(".eraseBtn").on("click", function (event) {
     schedule[this.id].activity = "";
-    $("#" + this.id).text("");
+    $("#" + this.id).val("");
+    console.log("hit");
 
     localStorage.setItem("refreshedSch", JSON.stringify(schedule));
 
