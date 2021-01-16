@@ -11,7 +11,13 @@ var schedule = [
 	{ hour: "2 PM", activity: "" }
 ];
 
+var savedSch = JSON.parse(localStorage.getItem("refreshedSch"));
+	if (savedSch !== null) {
+	    schedule = savedSch;
+}
+
 var myAct="";
+
 
 //make blanks rows
 $("table").append("<tbody>");
@@ -19,10 +25,15 @@ $("table").append("<tbody>");
 for(var i =0; i<9;i++){
     var newRow = $("<tr></tr>");
     var c1 =$("<td></td>").text(schedule[i].hour).addClass("time-block");
-    var c2 =$("<td><input></type></td>").addClass("description").attr("id", i);
-   
+    if(schedule[i].activity != ""){
+        var c2 =$("<td></td>").text(schedule[i].activity).addClass("description").attr("id", i);
+    }
+    else{
+        var c2 =$("<td><input></type></td>").addClass("description").attr("id", i);
+    }
     var c3 =$("<td><button type = 'button'></td>").addClass("saveBtn").attr("id", i);;
-    $("tbody").append(newRow,c1,c2,c3);
+    var c4 =$("<td><button type = 'button'></td>").addClass("eraseBtn").attr("id", i);;
+    $("tbody").append(newRow,c1,c2,c3,c4);
 };
 
 //get input from the activity section
@@ -41,6 +52,13 @@ $(".saveBtn").on("click", function(event) {
 
 });
 
+$(".eraseBtn").on("click", function(event) {
+    schedule[this.id].activity="";
+    $("#" + this.id).text("");
+
+    localStorage.setItem("refreshedSch",JSON.stringify(schedule));
+  
+  });
 
 setColor();
 
