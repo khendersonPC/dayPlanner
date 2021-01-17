@@ -82,6 +82,8 @@ function setTime() {
 
     if(currentTime === "11:59:59 pm") {
       clearInterval(timerInterval);
+      localStorage.clear();
+      location.reload();
       
     }
 
