@@ -1,4 +1,4 @@
-
+//Empty schedule to load
 var schedule = [
     { hour: "6 AM", activity: "" },
     { hour: "7 AM", activity: "" },
@@ -13,11 +13,11 @@ var schedule = [
 
 
 
-
+//global variable for my activity
 var myAct = "";
 
 
-
+//If there is no existing schedule in local storage, the one from above is loaded. 
 var savedSch = JSON.parse(localStorage.getItem("refreshedSch"));
 if (savedSch !== null) {
     schedule = savedSch;
@@ -56,10 +56,11 @@ $(".saveBtn").on("click", function (event) {
     
 });
 
+//code for the erase button. This resets the stored activity to an empty input slot. It also removes it from storage 
+//by reseting the schedule array.
 $(".eraseBtn").on("click", function (event) {
     schedule[this.id].activity = "";
     $("#" + this.id).val("");
-    console.log("hit");
 
     localStorage.setItem("refreshedSch", JSON.stringify(schedule));
 
@@ -68,13 +69,7 @@ $(".eraseBtn").on("click", function (event) {
 
 setColor();
 
-
-//setInterval function- run it based on the time left in the day
-//onClick svae button
-//save to local storage 
-//getItem for each of the sep time blocks- each has a sep ID
-
-
+//This resets the color every 30 minutes unless it is midnight- in which case, the timer interval is reset, the local storage is cleared and the page is reloaded.
 function setTime() {
   var timerInterval = setInterval(function() {
     var currentTime= moment().format();
@@ -83,8 +78,7 @@ function setTime() {
     if(currentTime === "11:59:59 pm") {
       clearInterval(timerInterval);
       localStorage.clear();
-      location.reload();
-      
+      location.reload(); 
     }
 
   }, 1800000);
@@ -93,7 +87,7 @@ function setTime() {
 
 setTime();
 
-// function for past, present, next color
+// function for that takes in the hour and determines if it is past, present, next color
 function checkColor(hour) {
     let now = moment().format('h A');
     let momentTime = moment(now, 'h A');
@@ -109,7 +103,7 @@ function checkColor(hour) {
     }
 }
 
-
+//this sets the color of the rows.
 function setColor() {
     var times = $(".time-block").toArray();
 
